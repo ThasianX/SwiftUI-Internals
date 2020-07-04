@@ -12,6 +12,8 @@ struct ListView: View {
         .introspectTableView(customize: printImplementedMethods)
     }
 
+    // It seems that `List` uses the same source for both `UITableViewDataSource` and
+    // `UITableViewDelegate` which is why every function overlaps in the output
     private func printImplementedMethods(tableView: UITableView) {
         printImplementedTableViewDatasourceMethods(tableView: tableView)
         printImplementedTableViewDelegateMethods(tableView: tableView)
@@ -24,10 +26,10 @@ struct ListView: View {
         let classToInspect = type(of: cls)
         let methodList = class_copyMethodList(classToInspect, &methodCount)!
 
-        print("------------Implemented UITableViewDataSource Methods-----------")
+        print("**Implemented UITableViewDataSource Methods**")
         for i in 0...Int(methodCount) {
             let selector = method_getName(methodList[i])
-            print("\(String(_sel: selector)) - \(cls.responds(to: selector))")
+            print(String(_sel: selector))
         }
         print()
     }
@@ -39,10 +41,10 @@ struct ListView: View {
         let classToInspect = type(of: cls)
         let methodList = class_copyMethodList(classToInspect, &methodCount)!
 
-        print("-----------Implemented UITableViewDelegate Methods-----------")
+        print("**Implemented UITableViewDelegate Methods**")
         for i in 0...Int(methodCount) {
             let selector = method_getName(methodList[i])
-            print("\(String(_sel: selector)) - \(cls.responds(to: selector))")
+            print(String(_sel: selector))
         }
         print()
     }
